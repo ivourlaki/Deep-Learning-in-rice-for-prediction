@@ -1,0 +1,25 @@
+#!/bin/bash
+
+for j in {1..11}
+ do 
+  for i in 1 7 8 10 
+   do 
+    if [ "$i" -eq 1 ]; 
+    then 
+     nind=(541 550 546 550 547 546 547 549 548 548 576)
+     echo "$i" 
+    elif [ "$i" -eq 8 ];
+    then
+     nind=(573 577 577 580 576 578 577 577 577 577 607)
+    elif [ "$i" -eq 7 ];
+    then
+     nind=(572 576 576 579 575 577 576 576 577 576 606)
+     echo "$i"
+    else 
+     nind=(574 578 577 581 577 579 578 578 578 578 608) 
+    fi
+    gzip /Users/ivourlaki/ngsLD/partitions_LD/all_"$i"_partitions_"$j"_train.tsv 
+    /Users/ivourlaki/ngsLD/ngsLD --geno /Users/ivourlaki/ngsLD/partitions_LD/all_"$i"_partitions_"$j"_train.tsv.gz -n_ind $nind[j] -n_sites 403476 --pos /Users/ivourlaki/final_SVS_matrix/unique_chr_nooverlap_sorting_by_pos_index.txt --n_threads 8 --min_maf 0.01 --out /Users/ivourlaki/ngsLD/results/LDresults_partition"$j"_trait"$i"
+
+  done
+done
