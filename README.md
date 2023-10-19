@@ -5,12 +5,12 @@ Using Bayesian linear models, we have shown that Transposable Insertion Polymorp
 
 ## FILES
 ### CODES
-* BAYESC_MODEL: R script for genomic prediction in 11 different cross-validation scenarios using BayesC from BGLR package.
-* BAYESC_MODEL: R script for genomic prediction in 11 different cross-validation scenarios using RKHS from BGLR package.
-* Hypermodel_CNN: Python script for implementing Convolutional Neural Network generated for genomic prediction.
-* Hypermodel_MLP: Python script for implementing Multilayer Perceptron Neural Network generated for genomic prediction.
-* Hypermodel_Multiple_inputs: Python script for implementing Multilayer Perceptron Neural Network using multiple inputs for genomic prediction.
-* ngsLD_script: Bash script for running ngsLD software.
+* BAYESC_MODEL.R: R script for genomic prediction in 11 different cross-validation scenarios using BayesC from BGLR package.
+* BAYESC_MODEL.R: R script for genomic prediction in 11 different cross-validation scenarios using RKHS from BGLR package.
+* Hypermodel_CNN.py: Python script for implementing Convolutional Neural Network generated for genomic prediction.
+* Hypermodel_MLP.py: Python script for implementing Multilayer Perceptron Neural Network generated for genomic prediction.
+* Hypermodel_Multiple_inputs.py: Python script for implementing Multilayer Perceptron Neural Network using multiple inputs for genomic prediction.
+* ngsLD_script.sh: Bash script for running ngsLD software.
 
 ### RESULTS_TABLES
 * accuracy.dl.results: Table of accuracy values resulted by Deep Learning analysis.
@@ -20,3 +20,11 @@ Using Bayesian linear models, we have shown that Transposable Insertion Polymorp
 * loss.dl.results: Table of loss values resulted by Deep Learning analysis.
 * loss.linear.results: Table of loss values results by Bayesian linear models.
 * unique.linked.snps.across.all.the.analysis: TXT file with the name and positions of all the linked snps found in the analysis.
+
+### DATA
+* final_deletions.RData: Genotypes of deletions in R data frame format.
+* final_duplications.RData: Genotypes of duplications in R data frame format.
+* final_inversions.RData: Genotypes of inversions in R data frame format.
+* final_mitedtx.RData: Genotypes of mitedtx in R data frame format.
+* final_rlxrix.RData: Genotypes of rlxrix in R data frame format.
+* final_snps.RData: Genotypes of snps in R data frame format.
