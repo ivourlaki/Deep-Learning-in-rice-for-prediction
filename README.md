@@ -10,7 +10,7 @@ Using Bayesian linear models, we have shown that Transposable Insertion Polymorp
 * Hypermodel_CNN.py: Python script for implementing Convolutional Neural Network generated for genomic prediction.
 * Hypermodel_MLP.py: Python script for implementing Multilayer Perceptron Neural Network generated for genomic prediction.
 * Hypermodel_Multiple_inputs.py: Python script for implementing Multilayer Perceptron Neural Network using multiple inputs for genomic prediction.
-* ngsLD_script.sh: Bash script for running ngsLD software.
+* ngsLD_script.sh: Bash script for running ngsLD software for each trait and partition.
 
 ### RESULTS_TABLES
 * accuracy.dl.results: Table of accuracy values resulted by Deep Learning analysis.
