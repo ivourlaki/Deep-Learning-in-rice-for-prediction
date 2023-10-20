@@ -62,9 +62,7 @@ for (j in seq(11)) {
       }
       pval.geno1 <- rbind(pval.geno1,c(r2,pvalue))
     }
-  #with this way I save all the pvalues in one column and the names of each vairants in the other column
-  # when I will have all the results from the six markers I will join them by rowbind
-  # Resultsa re saved for each trait and partition separately
+ 
  
   pval.trait.partition.with.variant.names<- cbind.data.frame(names=colnames(markers_train_final),pvalues=pval.geno1[,2])
   write_csv(pval.trait.partition.with.variant.names,sprintf("~/GWAS/pvalues/pvalue_trait_%.0f_partitions_%.0f_train_snps.csv",l[i],j))
