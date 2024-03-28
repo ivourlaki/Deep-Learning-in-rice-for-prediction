@@ -21,16 +21,11 @@ nIter=100000
 
 
 all.loss<- NULL
-all.corr<- NULL
-all.corr2<- NULL
-all.accuracy<- NULL
-
-
 
 #--- input phenotypes and partitions
 
-all.phenotypes <- read.csv("/Users/ivourlaki/Deep_Learning_last/Deep_Learning/all.phenotypes.csv", header=TRUE)
-partitions <- read.csv("/Users/ivourlaki/Deep_Learning_last/Deep_Learning/partitions_mine.csv", header=TRUE)
+all.phenotypes <- read.csv("all.phenotypes.csv", header=TRUE)
+partitions <- read.csv("partitions_mine.csv", header=TRUE)
 
 
 
@@ -49,44 +44,25 @@ list.phen<-list(all.phenotypes[,10:20])
 fm= list()
 
 for (j in seq(11)) {
-  corr<- NULL
-  corr2<- NULL
   loss<- NULL
-  accuracy<-NULL
   g=0 
   
   
   for (i in c(1,7,8,10)) {
     
-    
-    #---- SCALE PHENOTYPES
     y<-(unlist(list.phen[[1]][i]))
     print(names[i])
     
-    #if (j %in% c(1:10)) {
-      marker <- read.csv(paste0("/Users/ivourlaki/Deep_Learning_last/Deep_Learning/LD_resulted_markers_partitions/all_LD_trait_",i,"_partitions_",j,".csv"),header=FALSE)
+      marker <- read.csv(paste0("all_LD_trait_",i,"_partitions_",j,".csv"),header=FALSE)
       marker<-marker[,-1]
-      ## if the following string is detected make the recorde in the TRUE values
-      #V1=str_detect(marker, 'DEL|MITE|DTX|RLX|RIX|INV|DUP')
-      #marker[V1][marker[V1] == 1] <- 2
       marker<-marker[-1,]
       marker<- as.data.frame(sapply(marker,as.numeric))
-      G_VanRadenPine <- Gmatrix(SNPmatrix=as.matrix(marker), maf=0.01, method="VanRaden")
+      G_VanRaden <- Gmatrix(SNPmatrix=as.matrix(marker), maf=0.01, method="VanRaden")
       # computing the domincance relationship matrix based on Vitezica 2013
-      G_VitezicaPipe <- Gmatrix(SNPmatrix=as.matrix(marker), maf=0.01, method="Vitezica")
+      G_Vitezica <- Gmatrix(SNPmatrix=as.matrix(marker), maf=0.01, method="Vitezica")
       # computing the epistatic relationship matrix based on the Hadamard product of additive effects
       G_Hadanard <- hadamard.prod(G_VanRadenPine,G_VanRadenPine)
       
-    #}else {
-     # marker <- read.csv(paste0("/Users/ivourlaki/Deep_Learning_last/Deep_Learning/rest_analysis_AROADM/geno_top-10000-all_AroAdm_",names[i],".csv"),header=FALSE)
-     # marker<-marker[,-1]
-      ## if the following string is detected make the recorde in the TRUE values
-     # V1=str_detect(marker, 'DEL|MITE|DTX|RLX|RIX|INV|DUP')
-     # marker[V1][marker[V1] == 1] <- 2
-     # marker<-marker[-1,]
-     # marker<- as.data.frame(sapply(marker,as.numeric))
-     # G_VanRadenPine <- Gmatrix(SNPmatrix=as.matrix(marker), maf=0.01, method="VanRaden")
-    #}
     
     
     # different analysis for ordinal and continuous
@@ -98,22 +74,17 @@ for (j in seq(11)) {
       tst <- which(v=="test" & !is.na(y))
       yNA[tst]=NA
       
-      #fm1 = BGLR(y=yNA,ETA=list(ETA1=list(K=G_VanRadenPine,model='RKHS')), nIter=nIter,verbose=F)
-       fm1=BGLR(y=yNA, ETA=list(ETA1=list(K=G_VanRadenPine,model='RKHS'),ETA2=list(K=G_VitezicaPipe,model='RKHS'),ETA3=list(K=G_Hadanard,model='RKHS')), nIter=nIter,verbose=F)
+     
+       fm1=BGLR(y=yNA, ETA=list(ETA1=list(K=G_VanRaden,model='RKHS'),ETA2=list(K=G_Vitezica,model='RKHS'),ETA3=list(K=G_Hadanard,model='RKHS')), nIter=nIter,verbose=F)
       
       g=g+1
-      corel1=cor(fm1$yHat[tst], y[tst])
-      corr<- cbind(corr,corel1)
-      colnames(corr)[g]<- paste("average_corr",i)
       
       
       loss1<-mean((fm1$yHat[tst]-y[tst])^2)
       loss<- cbind( loss,as.numeric(loss1))
       colnames(loss)[g]<- paste("average_loss",i)
       
-      accuracy1=0
-      accuracy<- cbind( accuracy,as.numeric(accuracy1))
-      colnames(accuracy)[g]<- paste("average_accuracy",i)
+     
       
     } else {
       y<-ifelse(y==2,1,0)
@@ -122,75 +93,29 @@ for (j in seq(11)) {
       tst <- which(v=="test" & !is.na(y))
       yNA[tst]=NA
       
-      #fm1 = BGLR(y=yNA,response_type="ordinal",ETA=list(ETA1=list(K=G_VanRadenPine,model='RKHS')), nIter=nIter,verbose=F)
+    
        fm1=BGLR(y=yNA, response_type="ordinal", ETA=list(ETA1=list(K=G_VanRadenPine,model='RKHS'),ETA2=list(K=G_VitezicaPipe,model='RKHS'),ETA3=list(K=G_Hadanard,model='RKHS')), nIter=nIter,verbose=F)
 
       
       g=g+1
       
-      y2<-scale(y[tst],center=TRUE,scale=TRUE)
-      corel1=cor(fm1$yHat[tst], y2)
-      corr<- cbind(corr,corel1)
-      colnames(corr)[g]<- paste("average_scale_corr",i)
-      
-      fm1$yHat[tst][which(fm1$probs[tst,2] > 0.5)] <- 1
-      fm1$yHat[tst][which(fm1$probs[tst,2]  < 0.5)] <- 0
-      
-      
       loss1= (-1/length(tst))*sum(y[tst]*log(fm1$probs[tst,2])+(1-y[tst])*log(1-fm1$probs[tst,2]))
       loss<- cbind( loss,as.numeric(loss1))
       colnames(loss)[g]<- paste("average_loss",i)
       
-      corel2=cor(fm1$yHat[tst], y[tst])
-      corr2<- cbind(corr2,corel2)
-      colnames(corr2)[g]<- paste("average_corr",i)
-      
-      if (length(unique(fm1$yHat[tst])) =="2") {
-        confusionm<- table(fm1$yHat[tst], y[tst])
-        print(confusionm)
-        accuracy1<- sum(confusionm[1],confusionm[4])/sum(confusionm[1:4])
-        print(accuracy1)
-        accuracy<- cbind( accuracy,as.numeric(accuracy1))
-        colnames(accuracy)[g]<- paste("average_accuracy",i)
-      } else if (fm1$yHat[tst]=="0") {
-        
-        confusionm<- table(fm1$yHat[tst], y[tst])
-        accuracy1<- sum(confusionm[1])/sum(confusionm[1:2])
-        print(confusionm)
-        print(accuracy1)
-        accuracy<- cbind( accuracy,as.numeric(accuracy1))
-        colnames(accuracy)[g]<- paste("average_accuracy",i)
-      } else { 
-        confusionm<- table(fm1$yHat[tst], y[tst])
-        print(confusionm)
-        accuracy1<- sum(confusionm[2])/sum(confusionm[1:2])
-        print(accuracy1)
-        accuracy<- cbind( accuracy,as.numeric(accuracy1))
-        colnames(accuracy)[g]<- paste("average_accuracy",i)
-        
-      }
+    
     }
       
-      
-      
-      
-    
-    
     fm [i] =list(fm1)
   }
   
-  all.corr<- rbind.data.frame( all.corr,corr)
-  all.corr2<- rbind.data.frame( all.corr2,corr2)
-  all.loss<- rbind.data.frame( all.loss,loss)
-  all.accuracy<- rbind.data.frame( all.accuracy,accuracy)
-  
 
- # write.csv(all.loss,paste0("/Users/ivourlaki/Deep_Learning_last/Deep_Learning/Linear_Results/RKHS_LINKED_SNPS_loss_corr_",j,".csv"), row.names =FALSE)
-  
+  all.loss<- rbind.data.frame( all.loss,loss)
+
   
 }
 
-all.metrics <- cbind.data.frame(all.loss,all.corr,all.corr2,all.accuracy, architecture=rep("RKHS",length(all.loss[,1])),
+all.metrics <- cbind.data.frame(all.loss, architecture=rep("RKHS",length(all.loss[,1])),
                                 marker=rep("LINKED_SNPS",length(all.loss[,1])), Partition=c("Partition_1","Partition_2","Partition_3","Partition_4",
                                                                                     "Partition_5","Partition_6","Partition_7","Partition_8",
                                                                                     "Partition_9","Partition_10","ARO_ADM"))
@@ -198,7 +123,7 @@ all.metrics <- cbind.data.frame(all.loss,all.corr,all.corr2,all.accuracy, archit
 
 
 
-write.csv(all.metrics,paste0("/Users/ivourlaki/Deep_Learning_last/Deep_Learning/Linear_Results_Review_2024/RKHS_LINKED_SNPS_review.csv"), row.names = FALSE)
+write.csv(all.metrics,paste0("RKHS_LINKED_SNPS.csv"), row.names = FALSE)
 save.image("RKHS_LINKED_SNPS_review.RData")
 
 
