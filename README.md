@@ -7,9 +7,9 @@ Ioanna-Theoni Vourlaki1, Sebastián E. Ramos-Onsins1,Miguel Pérez-Enciso1,2,3* 
 For correspondence: mperezenciso@gmail.com, raul.castanera@cragenomica.es
  
 Abstract
-Background
+
 Structural genomic variants (SVs) are prevalent in plant genomes and have played an important role in evolution and domestication, as they constitute a significant source of genomic and phenotypic variability. Nevertheless, most methods in quantitative genetics focusing on crop improvement, such as genomic prediction, consider only Single Nucleotide Polymorphisms (SNPs). Deep Learning (DL) is a promising strategy for genomic prediction, but its performance using SVs and SNPs as genetic markers remains unknown.
-Results
+
 We used rice to investigate whether combining SVs and SNPs can result in better trait predic-tion over SNPs alone and examine the potential advantage of Deep Learning (DL) networks over Bayesian Linear models. Specifically, the performances of BayesC and a Bayesian Repro-ducible Kernel Hilbert space (RKHS) regression, were compared to those of two different DL architectures, the Multilayer Perceptron, and the Convolution Neural Network. In the case of RKHS, models were implemented considering either additive effects exclusively or non-additive additionally.  We further explore their prediction ability by using various marker in-put strategies. We found that exploiting structural and nucleotide variation slightly improved prediction ability on complex traits in 87% of the cases, and that DL models outperformed Bayesian models in 75% of the studied cases. Finally, DL systematically improved prediction ability of binary traits against the Bayesian models.
 
 
