@@ -16,19 +16,16 @@ We used rice to investigate whether combining SVs and SNPs can result in better 
 
 ## FILES
 ### SCRIPTS
-* BAYESC_MODEL.R: R script for genomic prediction in 11 different cross-validation scenarios using BayesC from BGLR package.
-* RKHS_MODEL.R: R script for genomic prediction in 11 different cross-validation scenarios using RKHS from BGLR package.
-* RKHS_MODEL_NON_ADDITIVE_EFFECTS.R: R script for genomic prediction in 11 different cross-validation scenarios using RKHS incorporating additive and non-additive effects.
+* BAYESC_LINKED_SNPS.R: R script for genomic prediction in 11 different cross-validation scenarios using LINKED SNPS input strategy and applying BayesC from BGLR package.
+* RKHS_SIX_KERNELS.R: R script for genomic prediction in 11 different cross-validation scenarios using six marker sets as multiple input strategy and applying RKHS from BGLR package.
+* RKHS_LINKED_SNPS.R: R script for genomic prediction in 11 different cross-validation scenarios using LINKED SNPS input strategy and applying RKHS from BGLR package.
+* RKHS_LINKED_SNPSed.R: R script for genomic prediction in 11 different cross-validation scenarios using LINKED SNPS and incorporating epistatic and dominance effect as well.
 * Hypermodel_CNN.py: Python script for implementing Convolutional Neural Network generated for genomic prediction.
 * Hypermodel_MLP.py: Python script for implementing Multilayer Perceptron Neural Network generated for genomic prediction.
-* Hypermodel_Multiple_inputs.py: Python script for implementing Multilayer Perceptron Neural Network using multiple inputs for genomic prediction.
+* MLP_Multiple_inputs.py: Python script for implementing Multilayer Perceptron Neural Network using multiple inputs for genomic prediction.
 * ngsLD_script.sh: Bash script for running ngsLD software for each trait and partition.
 
 ### RESULTS_TABLES
-* accuracy.dl.results: Table of accuracy values resulted by Deep Learning analysis.
-* accuracy.linear.results: Table of accuracy values results by Bayesian linear models.
-* corr.dl.results: Table of correlation values resulted by Deep Learning analysis.
-* corr.linear.results: Table of correlation values results by Bayesian linear models.
 * loss.dl.results: Table of loss values resulted by Deep Learning analysis.
 * loss.linear.results: Table of loss values results by Bayesian linear models.
 * unique.linked.snps.across.all.the.analysis: TXT file with the name and positions of all the linked snps found in the analysis.
