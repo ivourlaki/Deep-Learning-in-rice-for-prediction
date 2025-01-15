@@ -1,10 +1,9 @@
 # Evaluation of Deep Learning for predicting rice traits using structural and single-nucleotide genomic variants
-Ioanna-Theoni Vourlaki1, Sebastián E. Ramos-Onsins1,Miguel Pérez-Enciso1,2,3* Raúl Castanera1*
+Ioanna-Theoni Vourlaki1*, Sebastián E. Ramos-Onsins1,Miguel Pérez-Enciso1,2,3 Raúl Castanera1*
 
 1Centre for Research in Agricultural Genomics CSIC-IRTA-UAB-UB, Campus UAB, Edifici CRAG, Bellaterra, Barcelona 08193, Spain,
 2Catalan Institute for Research and Advanced Studies (ICREA), Barcelona, Spain,
 3Universitat Autónoma de Barcelona, Barcelona, 08193, Spain.
-For correspondence: mperezenciso@gmail.com, raul.castanera@cragenomica.es
  
 Abstract
 
